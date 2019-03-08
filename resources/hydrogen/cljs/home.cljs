@@ -16,8 +16,7 @@
 
 (defn logout []
       [:div.logout
-       {:on-click #(js/alert "not ready!") #_#(do (re-frame/dispatch [::session/user-logout])
-                       (view/redirect! "/#/landing"))}
+       {:on-click #(js/alert "not ready!")}
        "Logout"])
 
 (defn links []

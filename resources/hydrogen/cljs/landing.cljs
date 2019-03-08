@@ -25,35 +25,10 @@
       (swap! atom assoc field (.. event -target -value)))
 
 (defn- do-login-if-enter-pressed [event credentials]
-       (js/alert "not ready!")
-       #_(when (= (.-key event) "Enter")
-             (re-frame/dispatch [::session/user-login credentials])))
+       (js/alert "not ready!"))
 
 (defn login-form []
-      (let [token (re-frame/subscribe [::session/token])
-            auth-error (re-frame/subscribe [::auth-error])]
-           [:div.login-form
-            [:form
-             [:label {:for "username"} "Username"]
-             [:input {:type "text"
-                      :id "username"
-                      :value (:username @credentials)
-                      :on-key-press #(do-login-if-enter-pressed % @credentials)
-                      :on-change #(swap-input! % credentials :username)}]]
-            [:form
-             [:label {:for "password"} "Password"]
-             [:input {:type "password"
-                      :id "password"
-                      :value (:password @credentials)
-                      :on-key-press #(do-login-if-enter-pressed % @credentials)
-                      :on-change #(swap-input! % credentials :password)}]]
-            [:div.btn
-             {:on-click #(re-frame/dispatch [::session/user-login @credentials])}
-             "Login"]
-            (when-not (empty? @token)
-                      (view/redirect! "/#/home"))
-            (when @auth-error
-                  [:p {:style {:color :red}} (name @auth-error)])]))
+      [:div "landing page"])
 
 (defn header []
       [:header
