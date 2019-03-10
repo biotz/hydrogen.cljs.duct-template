@@ -12,23 +12,3 @@
   (context "/" []
            (GET "/" []
                 (io/resource "<<dirs>>/index.html"))))
-
-
-
-;; IN config.edn:
-{... ...
- :magnet.module.scheduling/twarc-pgsql {}
- ... ...}
-(defmethod ig/init-key :magnet.module.scheduling/twarc-pgsql [_ options]
-  (fn [config]
-    (core/merge-configs config ragtime-config)))
-
-
-
-;; IN dev.edn:
-{... ...
- :magnet.module.scheduling/twarc-pgsql-dev {}
- ... ...}
-(defmethod ig/init-key :magnet.module.scheduling/twarc-pgsql-dev [_ options]
-  (fn [config]
-    (core/merge-configs config ragtime-config)))

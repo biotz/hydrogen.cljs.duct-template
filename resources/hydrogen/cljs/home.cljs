@@ -5,14 +5,9 @@
 (ns {{namespace}}.client.home
   (:require
     ;;[hyd.client.session :as session]
-    [{{namespace}}.client.view :as view]
-    [{{namespace}}.client.landing :as landing]
+    ;;[{{namespace}}.client.view :as view]
+    ;;[{{namespace}}.client.landing :as landing]
     [re-frame.core :as re-frame]))
-
-(re-frame/reg-event-fx
-  ::go-to-home
-  (fn [_ _]
-      {:dispatch [::view/set-active-view :home]}))
 
 (defn logout []
       [:div.logout
@@ -26,7 +21,7 @@
 
 (defn main []
       [:div {:id "home"}
-       [:img {:src "img/hydrogen-logo-white.svg" :alt "Hydrogen logo"}]
+       [:img {:src "assets/hydrogen-logo-white.svg" :alt "Hydrogen logo"}]
        [:h1 "Welcome to Hydrogen!"]
        [:p "What do you want to play with?"]
        [links]

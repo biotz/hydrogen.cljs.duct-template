@@ -4,10 +4,11 @@
 
 {{=<< >>=}}
 (ns <<namespace>>.client
-  (:require [reagent.core :as reagent]))
+  (:require [reagent.core :as reagent]
+            [<<namespace>>.client.home :as home]))
 
 (defn main []
-      [:div "Hello!"])
+      [home/main])
 
 (defn dev-setup []
       (when goog.DEBUG
