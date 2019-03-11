@@ -2,11 +2,12 @@
 ;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-(ns {{namespace}}.client.todo
-  (:require [reagent.core :as r]
+{{=<< >>=}}
+(ns <<namespace>>.client.todo
+  (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
             [clojure.string :refer [lower-case]]
-            [{{namespace}}.client.view :as view]))
+            [<<namespace>>.client.view :as view]))
 
 (re-frame/reg-event-fx
   ::go-to-todo
@@ -71,7 +72,7 @@
       (.focus (.getElementById js/document "todo-content-input")))
 
 (defn new-todo-input []
-      (let [todo-content (r/atom nil)]
+      (let [todo-content (reagent/atom nil)]
            (fn []
                [:div {:style {:padding "10px" :background "yellow"}}
                 [:input {:id "todo-content-input"

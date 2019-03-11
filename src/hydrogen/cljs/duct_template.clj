@@ -19,12 +19,18 @@
                "src/{{dirs}}/handler/root.clj" (resource "handler/root.clj")
                "resources/{{dirs}}/index.html" (resource "resources/index.html")
                "src/{{dirs}}/client/home.cljs" (resource "cljs/home.cljs")
+               "src/{{dirs}}/client/routes.cljs" (resource "cljs/routes.cljs")
+               "src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")
+               "src/{{dirs}}/client/view.cljs" (resource "cljs/view.cljs")
                "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
                "resources/{{dirs}}/public/css/landing.scss" (resource "resources/css/landing.scss")
                "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")
                ;;"src/{{dirs}}/client/landing.cljs" (resource "cljs/landing.cljs")
                ;;"src/{{dirs}}/client/routes.cljs" (resource "cljs/routes.cljs")
                }})
+
+(defn session-profile [_]
+  {:vars {:hydrogen-cljs-session? true}})
 
 (defn example.todo-profile [_]
   {:templates {"src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")}})

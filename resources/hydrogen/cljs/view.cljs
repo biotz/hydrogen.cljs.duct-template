@@ -2,13 +2,14 @@
 ;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-(ns {{namespace}}.client.view
+{{=<< >>=}}
+(ns <<namespace>>.client.view
   (:require [re-frame.core :as re-frame]))
 
 (re-frame/reg-sub
   ::active-view
   (fn [db]
-      (get db :active-view :landing)))
+      (get db :active-view :home)))
 
 (re-frame/reg-event-db
   ::set-active-view

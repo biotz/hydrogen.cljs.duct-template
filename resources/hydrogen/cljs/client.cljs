@@ -4,11 +4,19 @@
 
 {{=<< >>=}}
 (ns <<namespace>>.client
-  (:require [reagent.core :as reagent]
-            [<<namespace>>.client.home :as home]))
+  (:require [re-frame.core :as re-frame]
+            [reagent.core :as reagent]
+            [<<namespace>>.client.home :as home]
+            [<<namespace>>.client.routes :as routes]
+            [<<namespace>>.client.todo :as todo]
+            [<<namespace>>.client.view :as view]))
 
 (defn main []
-      [home/main])
+      (let [active-view (re-frame/subscribe [::view/active-view])]
+           (fn []
+               (case @active-view
+                     :home [home/main]
+                     :todo-list [todo/main]))))
 
 (defn dev-setup []
       (when goog.DEBUG
@@ -16,18 +24,11 @@
             (println "Dev mode")))
 
 (defn mount-root []
-      (reagent/render [:div.app-container
-                       (js/console.log (range 20))
-                       (js/console.log {:recipe-tile "Mac and Cheese"
-                                        :ingredients [{:name "Pasta"
-                                                       :category ""}
-                                                      {:name "Cheese"
-                                                       :category "Dairy"
-                                                       :recommended-type "Cheddar"}]})
-
-                       [main]]
+      (re-frame/clear-subscription-cache!)
+      (reagent/render [:div.app-container [main]]
                       (.getElementById js/document "app")))
 
 (defn ^:export init []
       (dev-setup)
+      (routes/app-routes)
       (mount-root))
