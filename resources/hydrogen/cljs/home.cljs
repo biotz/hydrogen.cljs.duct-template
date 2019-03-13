@@ -5,9 +5,8 @@
 {{=<< >>=}}
 (ns <<namespace>>.client.home
   (:require
-    [re-frame.core :as re-frame]<<=\\ //=>>\\! <<#hydrogen-cljs-session?>>
-    [<<namespace>>.client.landing :as landing]
-    [<<namespace>>.client.session :as session]<</hydrogen-cljs-session?>> //\\=<< >>=//
+    [re-frame.core :as re-frame]<<#hydrogen-cljs-session?>>
+    [<<namespace>>.client.session :as session]<</hydrogen-cljs-session?>>
     [<<namespace>>.client.view :as view]))
 
 (re-frame/reg-event-fx
@@ -18,7 +17,8 @@
 <<#hydrogen-cljs-session?>>
 (defn logout []
       [:div.logout
-       {:on-click #(js/alert "not ready!")}
+       {:on-click #(do (re-frame/dispatch [::session/user-logout])
+                       (view/redirect! "/#/landing"))}
        "Logout"])<</hydrogen-cljs-session?>>
 
 (defn links []

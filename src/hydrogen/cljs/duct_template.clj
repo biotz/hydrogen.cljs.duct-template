@@ -1,3 +1,7 @@
+;; This Source Code Form is subject to the terms of the Mozilla Public
+;; License, v. 2.0. If a copy of the MPL was not distributed with this
+;; file, You can obtain one at http://mozilla.org/MPL/2.0/
+
 (ns hydrogen.cljs.duct-template
     (:require [clojure.java.io :as io]))
 
@@ -14,19 +18,22 @@
            [reagent "0.8.1"]
            [day8.re-frame/http-fx "0.1.6"]
            [secretary "1.2.3"]]
-   :templates {;;"src/{{dirs}}/client/view.cljs" (resource "cljs/view.cljs")
+   :templates {
+               ;; Client
                "src/{{dirs}}/client.cljs" (resource "cljs/client.cljs")
-               "src/{{dirs}}/handler/root.clj" (resource "handler/root.clj")
-               "resources/{{dirs}}/index.html" (resource "resources/index.html")
                "src/{{dirs}}/client/home.cljs" (resource "cljs/home.cljs")
+               "src/{{dirs}}/client/landing.cljs" (resource "cljs/landing.cljs")
                "src/{{dirs}}/client/routes.cljs" (resource "cljs/routes.cljs")
+               "src/{{dirs}}/client/session.cljs" (resource "cljs/session.cljs")
                "src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")
                "src/{{dirs}}/client/view.cljs" (resource "cljs/view.cljs")
+               ;; Handler
+               "src/{{dirs}}/handler/root.clj" (resource "handler/root.clj")
+               ;; Resources
+               "resources/{{dirs}}/index.html" (resource "resources/index.html")
                "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
                "resources/{{dirs}}/public/css/landing.scss" (resource "resources/css/landing.scss")
                "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")
-               ;;"src/{{dirs}}/client/landing.cljs" (resource "cljs/landing.cljs")
-               ;;"src/{{dirs}}/client/routes.cljs" (resource "cljs/routes.cljs")
                }})
 
 (defn session-profile [_]
