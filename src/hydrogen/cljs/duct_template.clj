@@ -10,13 +10,15 @@
 
 (defn core-profile [_]
   {:vars {:hydrogen-cljs-core? true}
-   :deps '[[duct/module.cljs "0.4.0"]
-           [org.clojure/clojurescript "1.10.339"]
+   :deps '[[cljs-ajax "0.7.5"]
+           [day8.re-frame/http-fx "0.1.6"]
            [duct/compiler.sass "0.2.1"]
-           [cljs-ajax "0.7.5"]
+           [duct/middleware.buddy "0.1.0"]
+           [duct/module.cljs "0.4.0"]
+           [magnet/buddy-auth.jwt-oidc "0.5.0"]
+           [org.clojure/clojurescript "1.10.339"]
            [re-frame "0.10.6"]
            [reagent "0.8.1"]
-           [day8.re-frame/http-fx "0.1.6"]
            [secretary "1.2.3"]]
    :templates {
                ;; Client
@@ -29,6 +31,7 @@
                "src/{{dirs}}/client/view.cljs" (resource "cljs/view.cljs")
                ;; Handler
                "src/{{dirs}}/handler/root.clj" (resource "handler/root.clj")
+               "src/{{dirs}}/handler/config.clj" (resource "handler/config.clj")
                ;; Resources
                "resources/{{dirs}}/index.html" (resource "resources/index.html")
                "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
