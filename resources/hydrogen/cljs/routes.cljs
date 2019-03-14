@@ -52,7 +52,7 @@
 (re-frame/reg-event-fx
   :go-to*
   [(re-frame/inject-cofx ::session/jwt-token)]
-  (fn [{:keys [jwt-token]} [_ evt & access-config]]
+  (fn [{:keys [jwt-token]} [_ evt access-config]]
       (let [access-config (merge access-config-defaults access-config)]
            (cond
              (anyone? access-config) {:dispatch evt}
@@ -61,9 +61,9 @@
 
 (re-frame/reg-event-fx
   :go-to
-  (fn [{:keys [db]} [_ evt & {:keys [allow-authenticated? allow-unauthenticated remaining-retries]
-                              :or {remaining-retries default-number-retries}
-                              :as access-config}]]
+  (fn [{:keys [db]} [_ evt & [{:keys [allow-authenticated? allow-unauthenticated remaining-retries]
+                               :or {remaining-retries default-number-retries}
+                               :as access-config}]]]
       (cond
         (config-exists? db) {:dispatch [:go-to* evt access-config]}
         (> remaining-retries 0) {:dispatch-later
@@ -81,7 +81,8 @@
                 (view/redirect! "/#/landing"))
 
       (defroute "/landing" []
-                (re-frame/dispatch [:go-to [::landing/go-to-landing] :allow-authenticated? false :allow-unauthenticated? true]))
+                (re-frame/dispatch [:go-to [::landing/go-to-landing]
+                                    {:allow-authenticated? false :allow-unauthenticated? true}]))
 
       (defroute "/home" []
                 (re-frame/dispatch [:go-to [::home/go-to-home]]))

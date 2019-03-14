@@ -42,17 +42,22 @@
             (new js/AmazonCognitoIdentity.CognitoUserPool #js {:UserPoolId awscog-user-pool-id
                                                                :ClientId awscog-app-client-id})))
 
+(defn- assoc-jwt-token-to-cofx
+       [cofx current-user]
+       (let [jwt-token (.getSession current-user (fn [err session]
+                                                     (when (not err)
+                                                           (-> session .-idToken .-jwtToken))))]
+            (-> cofx
+                (assoc-in [:db :token] jwt-token)
+                (assoc :jwt-token jwt-token))))
+
 (re-frame/reg-cofx
   ::jwt-token
-  (fn [{:keys [db] :as coeffects} _]
-      (let [user-pool (get-user-pool db)
-            current-user (.getCurrentUser user-pool)
-            jwt-token (.getSession current-user (fn [err session]
-                                                    (when (not err)
-                                                          (-> session .-idToken .-jwtToken))))]
-           (-> coeffects
-               (assoc-in [:db :token] jwt-token)
-               (assoc :jwt-token jwt-token)))))
+  (fn [{:keys [db] :as cofx} _]
+      (let [current-user (-> (get-user-pool db)
+                             (.getCurrentUser))]
+           (cond-> cofx
+                   current-user (assoc-jwt-token-to-cofx current-user)))))
 
 (re-frame/reg-event-fx
   ::user-login
@@ -71,7 +76,7 @@
                                  (let [id-token (-> cognitoAuthResult .-idToken .-jwtToken)]
                                       (re-frame/dispatch [::set-auth-error nil])
                                       (re-frame/dispatch [::set-token id-token])
-                                      (re-frame/dispatch [::view/go-to-home])))
+                                      (view/redirect! "/#/home")))
                   :onFailure (fn [err]
                                  (re-frame/dispatch [::set-auth-error "Incorrect username or password"]))}))))
 

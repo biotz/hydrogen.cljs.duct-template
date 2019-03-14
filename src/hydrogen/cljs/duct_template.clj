@@ -13,9 +13,7 @@
    :deps '[[cljs-ajax "0.7.5"]
            [day8.re-frame/http-fx "0.1.6"]
            [duct/compiler.sass "0.2.1"]
-           [duct/middleware.buddy "0.1.0"]
            [duct/module.cljs "0.4.0"]
-           [magnet/buddy-auth.jwt-oidc "0.5.0"]
            [org.clojure/clojurescript "1.10.339"]
            [re-frame "0.10.6"]
            [reagent "0.8.1"]
@@ -24,23 +22,31 @@
                ;; Client
                "src/{{dirs}}/client.cljs" (resource "cljs/client.cljs")
                "src/{{dirs}}/client/home.cljs" (resource "cljs/home.cljs")
-               "src/{{dirs}}/client/landing.cljs" (resource "cljs/landing.cljs")
                "src/{{dirs}}/client/routes.cljs" (resource "cljs/routes.cljs")
-               "src/{{dirs}}/client/session.cljs" (resource "cljs/session.cljs")
                "src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")
                "src/{{dirs}}/client/view.cljs" (resource "cljs/view.cljs")
                ;; Handler
                "src/{{dirs}}/handler/root.clj" (resource "handler/root.clj")
-               "src/{{dirs}}/handler/config.clj" (resource "handler/config.clj")
                ;; Resources
                "resources/{{dirs}}/index.html" (resource "resources/index.html")
                "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
-               "resources/{{dirs}}/public/css/landing.scss" (resource "resources/css/landing.scss")
                "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")
                }})
 
 (defn session-profile [_]
-  {:vars {:hydrogen-cljs-session? true}})
+  {:vars {:hydrogen-cljs-session? true}
+   :deps '[[duct/middleware.buddy "0.1.0"]
+           [magnet/buddy-auth.jwt-oidc "0.5.0"]]
+   :templates {
+               ;; Client
+               "src/{{dirs}}/client/landing.cljs" (resource "cljs/landing.cljs")
+               "src/{{dirs}}/client/session.cljs" (resource "cljs/session.cljs")
+               "src/{{dirs}}/client/externs.js" (resource "cljs/externs.js")
+               ;; Handler
+               "src/{{dirs}}/handler/config.clj" (resource "handler/config.clj")
+               ;; Resources
+               "resources/{{dirs}}/public/css/landing.scss" (resource "resources/css/landing.scss")
+               }})
 
 (defn example.todo-profile [_]
   {:templates {"src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")}})
