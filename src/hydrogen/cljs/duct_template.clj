@@ -5,15 +5,18 @@
 (ns hydrogen.cljs.duct-template
     (:require [clojure.java.io :as io]))
 
-(defn resource [path]
+(defn- resource [path]
   (io/resource (str "hydrogen/" path)))
 
-(defn core-profile [_]
+(defn- read-config [from]
+  (clojure.edn/read-string {:default tagged-literal}
+                           (slurp (resource from))))
+
+(defn core-profile [{:keys [project-ns]}]
   {:vars {:hydrogen-cljs-core? true}
    :deps '[[cljs-ajax "0.7.5"]
            [day8.re-frame/http-fx "0.1.6"]
            [duct/compiler.sass "0.2.1"]
-           [duct/module.cljs "0.4.0"]
            [org.clojure/clojurescript "1.10.339"]
            [re-frame "0.10.6"]
            [reagent "0.8.1"]
@@ -30,10 +33,11 @@
                ;; Resources
                "resources/{{dirs}}/index.html" (resource "resources/index.html")
                "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
-               "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")
-               }})
+               "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")}
+   :extra-config {:profile-base (-> (read-config "config/profile-base.edn")
+                                    (assoc (keyword (str project-ns ".handler/root")) {}))}})
 
-(defn session-profile [_]
+(defn session-profile [{:keys [project-ns]}]
   {:vars {:hydrogen-cljs-session? true}
    :deps '[[duct/middleware.buddy "0.1.0"]
            [magnet/buddy-auth.jwt-oidc "0.5.0"]]
@@ -45,8 +49,10 @@
                ;; Handler
                "src/{{dirs}}/handler/config.clj" (resource "handler/config.clj")
                ;; Resources
-               "resources/{{dirs}}/public/css/landing.scss" (resource "resources/css/landing.scss")
-               }})
+               "resources/{{dirs}}/public/css/landing.scss" (resource "resources/css/landing.scss")}
+   :extra-config {:profile-base (-> (read-config "config/session/profile-base.edn")
+                                    (assoc (keyword (str project-ns ".handler/config"))
+                                           (read-config "config/session/handler-config.edn")))}})
 
 (defn example.todo-profile [_]
   {:templates {"src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")}})

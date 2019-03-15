@@ -1,0 +1,2 @@
+{:iss #duct/env ["OIDC_ISSUER_URL" Str]
+ :client-id #duct/env ["OIDC_AUDIENCE" Str]}
