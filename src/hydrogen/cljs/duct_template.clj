@@ -8,10 +8,6 @@
 (defn- resource [path]
   (io/resource (str "hydrogen/" path)))
 
-(defn- read-config [from]
-  (clojure.edn/read-string {:default tagged-literal}
-                           (slurp (resource from))))
-
 (defn core-profile [{:keys [project-ns]}]
   {:vars {:hydrogen-cljs-core? true}
    :deps '[[cljs-ajax "0.7.5"]
@@ -20,7 +16,8 @@
            [org.clojure/clojurescript "1.10.339"]
            [re-frame "0.10.6"]
            [reagent "0.8.1"]
-           [secretary "1.2.3"]]
+           [secretary "1.2.3"]
+           [hydrogen/module.cljs "0.1.0"]]
    :templates {
                ;; Client
                "src/{{dirs}}/client.cljs" (resource "cljs/client.cljs")
@@ -34,8 +31,7 @@
                "resources/{{dirs}}/index.html" (resource "resources/index.html")
                "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
                "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")}
-   :extra-config {:profile-base (-> (read-config "config/profile-base.edn")
-                                    (assoc (keyword (str project-ns ".handler/root")) {}))}})
+   :extra-config {:modules {:hydrogen.module.cljs/core {}}}})
 
 (defn session-profile [{:keys [project-ns]}]
   {:vars {:hydrogen-cljs-session? true}
@@ -50,9 +46,7 @@
                "src/{{dirs}}/handler/config.clj" (resource "handler/config.clj")
                ;; Resources
                "resources/{{dirs}}/public/css/landing.scss" (resource "resources/css/landing.scss")}
-   :extra-config {:profile-base (-> (read-config "config/session/profile-base.edn")
-                                    (assoc (keyword (str project-ns ".handler/config"))
-                                           (read-config "config/session/handler-config.edn")))}})
+   :extra-config {:modules {:hydrogen.module.cljs/session {}}}})
 
 (defn example.todo-profile [_]
   {:templates {"src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")}})

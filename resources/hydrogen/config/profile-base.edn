@@ -1,6 +1,0 @@
-{:duct.middleware.web/defaults {:security {:anti-forgery false}}
- :duct.handler/root {:middleware [#ig/ref :duct.middleware.web/format]}
- :duct.middleware.web/format {}
-
- :duct.compiler/sass {:source-paths ["resources"]
-                      :output-path "target/resources"}}
