@@ -4,8 +4,11 @@ An external profile for [Duct template](https://github.com/duct-framework/duct) 
 
 ## Usage
 
-`lein new duct <project name> +hydrogen.cljs/core`
-Note: You can optionally add `+hydrogen.cljs/example.todo`.
+This template profile needs to be used in conjunction with `+site` and `+cljs` hints.
+
+`lein new duct <project name> +site +cljs +hydrogen.cljs/core`
+
+You can optionally add `+hydrogen.cljs/session` to add OIDC-based session management.
 
 ## License
 
