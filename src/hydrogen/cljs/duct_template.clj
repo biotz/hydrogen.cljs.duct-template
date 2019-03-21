@@ -32,7 +32,9 @@
                "resources/{{dirs}}/index.html" (resource "resources/index.html")
                "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
                "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")}
-   :modules {:hydrogen.module.cljs/core {}}})
+   :modules {:hydrogen.module.cljs/core {}}
+   :repl-options {:host "0.0.0.0"
+                  :port 4001}})
 
 (defn session-profile [{:keys [project-ns]}]
   {:vars {:hydrogen-cljs-session? true}
