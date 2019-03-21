@@ -32,7 +32,7 @@
                "resources/{{dirs}}/index.html" (resource "resources/index.html")
                "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
                "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")}
-   :extra-config {:modules {:hydrogen.module.cljs/core {}}}})
+   :modules {:hydrogen.module.cljs/core {}}})
 
 (defn session-profile [{:keys [project-ns]}]
   {:vars {:hydrogen-cljs-session? true}
@@ -47,7 +47,4 @@
                "src/{{dirs}}/handler/config.clj" (resource "handler/config.clj")
                ;; Resources
                "resources/{{dirs}}/public/css/landing.scss" (resource "resources/css/landing.scss")}
-   :extra-config {:modules {:hydrogen.module.cljs/session {}}}})
-
-(defn example.todo-profile [_]
-  {:templates {"src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")}})
+   :modules {:hydrogen.module.cljs/session {}}})
