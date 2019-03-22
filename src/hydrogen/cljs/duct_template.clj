@@ -8,36 +8,41 @@
 (defn- resource [path]
   (io/resource (str "hydrogen/" path)))
 
-(defn core-profile [{:keys [project-ns]}]
-  {:vars {:hydrogen-cljs-core? true}
-   :deps '[[cljs-ajax "0.7.5"]
-           [day8.re-frame/http-fx "0.1.6"]
-           [duct/compiler.sass "0.2.1"]
-           [org.clojure/clojurescript "1.10.339"]
-           [re-frame "0.10.6"]
-           [reagent "0.8.1"]
-           [secretary "1.2.3"]
-           [hydrogen/module.cljs "0.1.0"]]
-   :dev-deps '[[day8.re-frame/re-frame-10x "0.3.7"]]
-   :templates {
-               ;; Client
-               "src/{{dirs}}/client.cljs" (resource "cljs/client.cljs")
-               "src/{{dirs}}/client/home.cljs" (resource "cljs/home.cljs")
-               "src/{{dirs}}/client/routes.cljs" (resource "cljs/routes.cljs")
-               "src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")
-               "src/{{dirs}}/client/view.cljs" (resource "cljs/view.cljs")
-               ;; Handler
-               "src/{{dirs}}/handler/root.clj" (resource "handler/root.clj")
-               ;; Resources
-               "resources/{{dirs}}/index.html" (resource "resources/index.html")
-               "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
-               "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")}
-   :modules {:hydrogen.module.cljs/core {}}
-   :repl-options {:host "0.0.0.0"
-                  :port 4001}})
+(defn core-profile [{:keys [project-ns profiles]}]
+  (let [vars (cond-> {:hydrogen-cljs-core? true}
+                     (not (get profiles :hydrogen.cljs/session))
+                     (assoc :cascading-routes [(keyword (str project-ns ".handler/root"))]))]
+    {:vars vars
+     :deps '[[cljs-ajax "0.7.5"]
+             [day8.re-frame/http-fx "0.1.6"]
+             [duct/compiler.sass "0.2.1"]
+             [org.clojure/clojurescript "1.10.339"]
+             [re-frame "0.10.6"]
+             [reagent "0.8.1"]
+             [secretary "1.2.3"]
+             [hydrogen/module.cljs "0.1.0"]]
+     :dev-deps '[[day8.re-frame/re-frame-10x "0.3.7"]]
+     :templates {
+                 ;; Client
+                 "src/{{dirs}}/client.cljs" (resource "cljs/client.cljs")
+                 "src/{{dirs}}/client/home.cljs" (resource "cljs/home.cljs")
+                 "src/{{dirs}}/client/routes.cljs" (resource "cljs/routes.cljs")
+                 "src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")
+                 "src/{{dirs}}/client/view.cljs" (resource "cljs/view.cljs")
+                 ;; Handler
+                 "src/{{dirs}}/handler/root.clj" (resource "handler/root.clj")
+                 ;; Resources
+                 "resources/{{dirs}}/index.html" (resource "resources/index.html")
+                 "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
+                 "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")}
+     :modules {:hydrogen.module.cljs/core {}}
+     :repl-options {:host "0.0.0.0"
+                    :port 4001}}))
 
 (defn session-profile [{:keys [project-ns]}]
-  {:vars {:hydrogen-cljs-session? true}
+  {:vars {:hydrogen-cljs-session? true
+          :cascading-routes [(keyword (str project-ns ".handler/root"))
+                             (keyword (str project-ns ".handler/config"))]}
    :deps '[[duct/middleware.buddy "0.1.0"]
            [magnet/buddy-auth.jwt-oidc "0.5.0"]]
    :templates {
