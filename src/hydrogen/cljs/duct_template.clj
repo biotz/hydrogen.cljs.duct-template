@@ -3,15 +3,22 @@
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 (ns hydrogen.cljs.duct-template
-    (:require [clojure.java.io :as io]))
+    (:require [clojure.java.io :as io]
+              [clojure.string]))
 
 (defn- resource [path]
   (io/resource (str "hydrogen/" path)))
 
+(defn- gen-cascading-routes [project-ns routes-suffixes]
+  (let [routes-vec (mapv #(format "#ig/ref :%s.handler/%s" project-ns %) routes-suffixes)]
+    (as-> routes-vec $
+          (clojure.string/join "\n   " $)
+          (str "\n  [" $ "]"))))
+
 (defn core-profile [{:keys [project-ns profiles]}]
   (let [vars (cond-> {:hydrogen-cljs-core? true}
                      (not (get profiles :hydrogen.cljs/session))
-                     (assoc :cascading-routes [(keyword (str project-ns ".handler/root"))]))]
+                     (assoc :cascading-routes (gen-cascading-routes project-ns ["root"])))]
     {:vars vars
      :deps '[[cljs-ajax "0.7.5"]
              [day8.re-frame/http-fx "0.1.6"]
@@ -41,8 +48,7 @@
 
 (defn session-profile [{:keys [project-ns]}]
   {:vars {:hydrogen-cljs-session? true
-          :cascading-routes [(keyword (str project-ns ".handler/root"))
-                             (keyword (str project-ns ".handler/config"))]}
+          :cascading-routes (gen-cascading-routes project-ns ["root" "config"])}
    :deps '[[duct/middleware.buddy "0.1.0"]
            [magnet/buddy-auth.jwt-oidc "0.5.0"]]
    :templates {
