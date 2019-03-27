@@ -22,8 +22,8 @@
               EventType/NAVIGATE
               (fn [event]
                   (secretary/dispatch! (.-token event))))
-            (.setEnabled true)))
-<<#hydrogen-cljs-session?>>
+            (.setEnabled true)))<<#hydrogen-cljs-session?>>
+
 (defn- anyone? [access-config]
        (every? #(true? (val %)) access-config))
 
@@ -91,8 +91,8 @@
                 (re-frame/dispatch [:go-to [::todo/go-to-todo]]))
 
       ;; --------------------
-      (hook-browser-navigation!))<</hydrogen-cljs-session?>>
-<<^hydrogen-cljs-session?>>
+      (hook-browser-navigation!))<</hydrogen-cljs-session?>><<^hydrogen-cljs-session?>>
+
 (defn app-routes []
       (secretary/set-config! :prefix "#")
       ;; --------------------

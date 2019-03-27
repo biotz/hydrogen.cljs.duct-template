@@ -16,8 +16,8 @@
 (re-frame/reg-sub
   ::active-view
   (fn [db _]
-      (get db :active-view)))
-<<#hydrogen-cljs-session?>>
+      (get db :active-view)))<<#hydrogen-cljs-session?>>
+
 (re-frame/reg-event-db
   ::set-config
   (fn [db [_ {:keys [config]}]]
@@ -36,8 +36,8 @@
                     :format (ajax/json-request-format)
                     :response-format (ajax/transit-response-format)
                     :on-success [::set-config]
-                    :on-failure [::error]}}))
-<</hydrogen-cljs-session?>>
+                    :on-failure [::error]}}))<</hydrogen-cljs-session?>>
+
 (defn main []
       (let [active-view (re-frame/subscribe [::view/active-view])]
            (fn []

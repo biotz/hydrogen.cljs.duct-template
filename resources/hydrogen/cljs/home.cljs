@@ -13,8 +13,8 @@
   ::go-to-home
   (fn [_ _]
       {:dispatch [::view/set-active-view :home]
-       :redirect "/#/home"}))
-<<#hydrogen-cljs-session?>>
+       :redirect "/#/home"}))<<#hydrogen-cljs-session?>>
+
 (defn logout []
       [:div.logout
        {:on-click #(do (re-frame/dispatch [::session/user-logout])

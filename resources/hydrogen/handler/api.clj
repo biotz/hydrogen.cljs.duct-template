@@ -6,9 +6,7 @@
 (ns <<namespace>>.handler.api
   (:require <<#hydrogen-cljs-session?>>[buddy.auth :refer [authenticated?]]
             <</hydrogen-cljs-session?>>[compojure.core :refer [GET POST context]]
-            [integrant.core :as ig]))
-
-<<#hydrogen-cljs-session?>>
+            [integrant.core :as ig]))<<#hydrogen-cljs-session?>>
 
 (defn- restrict-fn
   "Restrict access to the handler. Only allow access if the request
@@ -24,8 +22,7 @@
 (defn wrap-authentication-required [handler auth-middleware]
   (-> handler
       (compojure.core/wrap-routes restrict-fn)
-      (compojure.core/wrap-routes auth-middleware)))
-<</hydrogen-cljs-session?>>
+      (compojure.core/wrap-routes auth-middleware)))<</hydrogen-cljs-session?>>
 
 (defmethod ig/init-key :<<namespace>>.handler/api [_ {:keys [db-conn<<#hydrogen-cljs-session?>> auth-middleware<</hydrogen-cljs-session?>>] :as options}]
   (context "/api" []))
