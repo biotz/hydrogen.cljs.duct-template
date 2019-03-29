@@ -6,6 +6,7 @@
 (ns <<namespace>>.client
   (:require [ajax.core :as ajax]
             [re-frame.core :as re-frame]
+            [day8.re-frame.http-fx]
             [reagent.core :as reagent]
             [<<namespace>>.client.home :as home]<<#hydrogen-cljs-session?>>
             [<<namespace>>.client.landing :as landing]<</hydrogen-cljs-session?>>

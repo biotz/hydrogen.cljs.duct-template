@@ -6,7 +6,6 @@
 (ns <<namespace>>.client.session
   (:require [ajax.core :as ajax]
             [clojure.string :as s]
-            [day8.re-frame.http-fx]
             [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [<<namespace>>.client.view :as view]))
