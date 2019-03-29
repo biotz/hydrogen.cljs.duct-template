@@ -14,10 +14,8 @@
             [<<namespace>>.client.todo :as todo]
             [<<namespace>>.client.view :as view]))
 
-(re-frame/reg-sub
-  ::active-view
-  (fn [db _]
-      (get db :active-view)))<<#hydrogen-cljs-session?>>
+(def default-db
+  {})<<#hydrogen-cljs-session?>>
 
 (re-frame/reg-event-db
   ::set-config
@@ -27,17 +25,18 @@
 (re-frame/reg-event-db
   ::error
   (fn [db [_ _]]
-      (assoc db :error :unable-to-load-config)))
+      (assoc db :error :unable-to-load-config)))<</hydrogen-cljs-session?>>
 
 (re-frame/reg-event-fx
-  ::get-config
+  ::load-app
   (fn [{:keys [db]} [_]]
-      {:http-xhrio {:method :get
+      {:db default-db<<#hydrogen-cljs-session?>>
+       :http-xhrio {:method :get
                     :uri "/config"
                     :format (ajax/json-request-format)
                     :response-format (ajax/transit-response-format)
                     :on-success [::set-config]
-                    :on-failure [::error]}}))<</hydrogen-cljs-session?>>
+                    :on-failure [::error]}<</hydrogen-cljs-session?>>}))
 
 (defn main []
       (let [active-view (re-frame/subscribe [::view/active-view])]
@@ -58,7 +57,7 @@
                       (.getElementById js/document "app")))
 
 (defn ^:export init []
-      (dev-setup)<<#hydrogen-cljs-session?>>
-      (re-frame/dispatch-sync [::get-config])<</hydrogen-cljs-session?>>
+      (dev-setup)
+      (re-frame/dispatch-sync [::load-app])
       (routes/app-routes)
       (mount-root))
