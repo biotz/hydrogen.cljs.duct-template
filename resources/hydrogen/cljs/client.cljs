@@ -32,7 +32,7 @@
   (fn [{:keys [db]} [_]]
       {:db default-db<<#hydrogen-cljs-session?>>
        :http-xhrio {:method :get
-                    :uri "/config"
+                    :uri "/api/config"
                     :format (ajax/json-request-format)
                     :response-format (ajax/transit-response-format)
                     :on-success [::set-config]

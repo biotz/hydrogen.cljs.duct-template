@@ -3,10 +3,9 @@
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 {{=<< >>=}}
-(ns <<namespace>>.handler.api
+(ns <<namespace>>.api.util
   (:require <<#hydrogen-cljs-session?>>[buddy.auth :refer [authenticated?]]
-            <</hydrogen-cljs-session?>>[compojure.core :refer [GET POST context]]
-            [integrant.core :as ig]))<<#hydrogen-cljs-session?>>
+            <</hydrogen-cljs-session?>>[compojure.core :refer [GET POST context]]))<<#hydrogen-cljs-session?>>
 
 (defn- restrict-fn
   "Restrict access to the handler. Only allow access if the request
@@ -23,6 +22,3 @@
   (-> handler
       (compojure.core/wrap-routes restrict-fn)
       (compojure.core/wrap-routes auth-middleware)))<</hydrogen-cljs-session?>>
-
-(defmethod ig/init-key :<<namespace>>.handler/api [_ {:keys [db-conn<<#hydrogen-cljs-session?>> auth-middleware<</hydrogen-cljs-session?>>] :as options}]
-  (context "/api" []))

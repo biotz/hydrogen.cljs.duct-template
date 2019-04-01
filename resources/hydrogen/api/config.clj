@@ -3,13 +3,12 @@
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 {{=<< >>=}}
-(ns <<namespace>>.handler.config
-  (:require [clojure.string :as s]
-            [compojure.core :refer [GET]]
+(ns <<namespace>>.api.config
+  (:require [compojure.core :refer [GET]]
             [integrant.core :as ig]))
 
-(defmethod ig/init-key :<<namespace>>.handler/config [_ {:keys [iss client-id]}]
-  (GET "/config" req
+(defmethod ig/init-key :<<namespace>>.api/config [_ {:keys [iss client-id]}]
+  (GET "/api/config" req
        (fn [req]
          (let [oidc-config {:iss iss
                             :client-id client-id}]
