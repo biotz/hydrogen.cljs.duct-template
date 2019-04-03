@@ -36,8 +36,8 @@
    (:auth-error db)))
 
 (defn- get-user-pool [db]
-  (let [awscog-user-pool-id (last (s/split (get-in db [:config :iss]) #"/"))
-        awscog-app-client-id (get-in db [:config :client-id])]
+  (let [awscog-user-pool-id (last (s/split (get-in db [:config :cognito :iss]) #"/"))
+        awscog-app-client-id (get-in db [:config :cognito :client-id])]
     (new js/AmazonCognitoIdentity.CognitoUserPool #js {:UserPoolId awscog-user-pool-id
                                                        :ClientId awscog-app-client-id})))
 
