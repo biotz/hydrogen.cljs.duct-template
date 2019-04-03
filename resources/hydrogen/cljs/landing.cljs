@@ -11,49 +11,49 @@
             [<<namespace>>.client.view :as view]))
 
 (re-frame/reg-event-fx
-  ::go-to-landing
-  (fn [_ _]
-      {:dispatch [::view/set-active-view :landing]}))
+ ::go-to-landing
+ (fn [_ _]
+   {:dispatch [::view/set-active-view :landing]}))
 
 (def credentials (reagent/atom {:username "" :password ""}))
 
 (defn swap-input! [event atom field]
-      (swap! atom assoc field (.. event -target -value)))
+  (swap! atom assoc field (.. event -target -value)))
 
 (defn- do-login-if-enter-pressed [event credentials]
-       (when (= (.-key event) "Enter")
-             (re-frame/dispatch [::session/user-login credentials])
-             (.preventDefault event)))
+  (when (= (.-key event) "Enter")
+    (re-frame/dispatch [::session/user-login credentials])
+    (.preventDefault event)))
 
 (defn login-form []
-      (let [auth-error (re-frame/subscribe [::session/auth-error])]
-           (fn []
-               [:div.login-form
-                [:form
-                 [:label {:for "username"} "Username"]
-                 [:input {:type "text"
-                          :id "username"
-                          :value (:username @credentials)
-                          :on-key-press #(do-login-if-enter-pressed % @credentials)
-                          :on-change #(swap-input! % credentials :username)}]]
-                [:form
-                 [:label {:for "password"} "Password"]
-                 [:input {:type "password"
-                          :id "password"
-                          :value (:password @credentials)
-                          :on-key-press #(do-login-if-enter-pressed % @credentials)
-                          :on-change #(swap-input! % credentials :password)}]]
-                [:div.btn
-                 {:on-click #(re-frame/dispatch [::session/user-login @credentials])}
-                 "Login"]
-                (when @auth-error
-                      [:p {:style {:color :red}} (name @auth-error)])])))
+  (let [auth-error (re-frame/subscribe [::session/auth-error])]
+    (fn []
+      [:div.login-form
+       [:form
+        [:label {:for "username"} "Username"]
+        [:input {:type "text"
+                 :id "username"
+                 :value (:username @credentials)
+                 :on-key-press #(do-login-if-enter-pressed % @credentials)
+                 :on-change #(swap-input! % credentials :username)}]]
+       [:form
+        [:label {:for "password"} "Password"]
+        [:input {:type "password"
+                 :id "password"
+                 :value (:password @credentials)
+                 :on-key-press #(do-login-if-enter-pressed % @credentials)
+                 :on-change #(swap-input! % credentials :password)}]]
+       [:div.btn
+        {:on-click #(re-frame/dispatch [::session/user-login @credentials])}
+        "Login"]
+       (when @auth-error
+         [:p {:style {:color :red}} (name @auth-error)])])))
 
 (defn header []
-      [:header
-       [:h1 "Hydrogen"]])
+  [:header
+   [:h1 "Hydrogen"]])
 
 (defn main []
-      [:div.landing-container
-       [header]
-       [login-form]])
+  [:div.landing-container
+   [header]
+   [login-form]])

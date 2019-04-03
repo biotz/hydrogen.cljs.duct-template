@@ -9,9 +9,9 @@
 
 (defmethod ig/init-key :<<namespace>>.api/config [_ {:keys [iss client-id]}]
   (GET "/api/config" req
-       (fn [req]
-         (let [oidc-config {:iss iss
-                            :client-id client-id}]
-           {:status 200
-            :body {:config oidc-config}
-            :headers {"content-type" "application/json"}}))))
+    (fn [req]
+      (let [oidc-config {:iss iss
+                         :client-id client-id}]
+        {:status 200
+         :body {:config oidc-config}
+         :headers {"content-type" "application/json"}}))))

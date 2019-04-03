@@ -10,13 +10,13 @@
 
 (defmethod ig/init-key :<<namespace>>.api/example [_ {:keys [<<#hydrogen-cljs-session?>>auth-middleware<</hydrogen-cljs-session?>>] :as options}]
   (context "/api/example" []
-           (GET "/" []
-                {:status 200
-                 :body {:msg "Welcome!"}
-                 :headers {"content-type" "application/json"}})<<#hydrogen-cljs-session?>>
-           (->
-             (GET "/for-authenticated" []
-                  {:status 200
-                   :body {:msg "Hello again!"}
-                   :headers {"content-type" "application/json"}})
-             (util/wrap-authentication-required auth-middleware))<</hydrogen-cljs-session?>>))
+    (GET "/" []
+      {:status 200
+       :body {:msg "Welcome!"}
+       :headers {"content-type" "application/json"}})<<#hydrogen-cljs-session?>>
+    (->
+     (GET "/for-authenticated" []
+       {:status 200
+        :body {:msg "Hello again!"}
+        :headers {"content-type" "application/json"}})
+     (util/wrap-authentication-required auth-middleware))<</hydrogen-cljs-session?>>))

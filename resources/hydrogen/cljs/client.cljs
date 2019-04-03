@@ -18,46 +18,46 @@
   {})<<#hydrogen-cljs-session?>>
 
 (re-frame/reg-event-db
-  ::set-config
-  (fn [db [_ {:keys [config]}]]
-      (assoc db :config config)))
+ ::set-config
+ (fn [db [_ {:keys [config]}]]
+   (assoc db :config config)))
 
 (re-frame/reg-event-db
-  ::error
-  (fn [db [_ _]]
-      (assoc db :error :unable-to-load-config)))<</hydrogen-cljs-session?>>
+ ::error
+ (fn [db [_ _]]
+   (assoc db :error :unable-to-load-config)))<</hydrogen-cljs-session?>>
 
 (re-frame/reg-event-fx
-  ::load-app
-  (fn [{:keys [db]} [_]]
-      {:db default-db<<#hydrogen-cljs-session?>>
-       :http-xhrio {:method :get
-                    :uri "/api/config"
-                    :format (ajax/json-request-format)
-                    :response-format (ajax/transit-response-format)
-                    :on-success [::set-config]
-                    :on-failure [::error]}<</hydrogen-cljs-session?>>}))
+ ::load-app
+ (fn [{:keys [db]} [_]]
+   {:db default-db<<#hydrogen-cljs-session?>>
+    :http-xhrio {:method :get
+                 :uri "/api/config"
+                 :format (ajax/json-request-format)
+                 :response-format (ajax/transit-response-format)
+                 :on-success [::set-config]
+                 :on-failure [::error]}<</hydrogen-cljs-session?>>}))
 
 (defn main []
-      (let [active-view (re-frame/subscribe [::view/active-view])]
-           (fn []
-               (case @active-view<<#hydrogen-cljs-session?>>
-                     :landing [landing/main]<</hydrogen-cljs-session?>>
-                     :home [home/main]
-                     :todo-list [todo/main]))))
+  (let [active-view (re-frame/subscribe [::view/active-view])]
+    (fn []
+      (case @active-view<<#hydrogen-cljs-session?>>
+        :landing [landing/main]<</hydrogen-cljs-session?>>
+        :home [home/main]
+        :todo-list [todo/main]))))
 
 (defn dev-setup []
-      (when goog.DEBUG
-            (enable-console-print!)
-            (println "Dev mode")))
+  (when goog.DEBUG
+    (enable-console-print!)
+    (println "Dev mode")))
 
 (defn mount-root []
-      (re-frame/clear-subscription-cache!)
-      (reagent/render [:div.app-container [main]]
-                      (.getElementById js/document "app")))
+  (re-frame/clear-subscription-cache!)
+  (reagent/render [:div.app-container [main]]
+                  (.getElementById js/document "app")))
 
 (defn ^:export init []
-      (dev-setup)
-      (re-frame/dispatch-sync [::load-app])
-      (routes/app-routes)
-      (mount-root))
+  (dev-setup)
+  (re-frame/dispatch-sync [::load-app])
+  (routes/app-routes)
+  (mount-root))

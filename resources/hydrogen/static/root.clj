@@ -10,5 +10,5 @@
 
 (defmethod ig/init-key :<<namespace>>.static/root [_ _]
   (context "/" []
-           (GET "/" []
-                (io/resource "<<dirs>>/index.html"))))
+    (GET "/" []
+      (io/resource "<<dirs>>/index.html"))))
