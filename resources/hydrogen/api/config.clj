@@ -7,11 +7,9 @@
   (:require [compojure.core :refer [GET]]
             [integrant.core :as ig]))
 
-(defmethod ig/init-key :<<namespace>>.api/config [_ {:keys [iss client-id]}]
+(defmethod ig/init-key :<<namespace>>.api/config [_ config]
   (GET "/api/config" req
     (fn [req]
-      (let [oidc-config {:iss iss
-                         :client-id client-id}]
-        {:status 200
-         :body {:config oidc-config}
-         :headers {"content-type" "application/json"}}))))
+      {:status 200
+       :body config
+       :headers {"content-type" "application/json"}})))

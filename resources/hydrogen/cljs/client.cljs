@@ -19,7 +19,7 @@
 
 (re-frame/reg-event-db
  ::set-config
- (fn [db [_ {:keys [config]}]]
+ (fn [db [_ config]]
    (assoc db :config config)))
 
 (re-frame/reg-event-db
