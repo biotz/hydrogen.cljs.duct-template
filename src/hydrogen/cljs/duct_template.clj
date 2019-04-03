@@ -28,7 +28,7 @@
              [re-frame "0.10.6"]
              [reagent "0.8.1"]
              [secretary "1.2.3"]
-             [hydrogen/module.cljs "0.1.1"]]
+             [hydrogen/module.cljs "0.1.2"]]
      :dev-deps '[[day8.re-frame/re-frame-10x "0.3.7"]]
      :templates {
                  ;; Client
