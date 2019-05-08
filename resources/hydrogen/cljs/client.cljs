@@ -12,6 +12,7 @@
             [<<namespace>>.client.landing :as landing]<</hydrogen-cljs-session?>>
             [<<namespace>>.client.routes :as routes]
             [<<namespace>>.client.todo :as todo]
+            [<<namespace>>.client.tooltip :as tooltip]
             [<<namespace>>.client.view :as view]))
 
 (def default-db
@@ -53,7 +54,9 @@
 
 (defn mount-root []
   (rf/clear-subscription-cache!)
-  (reagent/render [:div.app-container [main]]
+  (reagent/render [:div.app-container
+                   {:on-click #(tooltip/destroy-on-click-out (.. % -target))}
+                   [main]]
                   (.getElementById js/document "app")))
 
 (defn ^:export init []
