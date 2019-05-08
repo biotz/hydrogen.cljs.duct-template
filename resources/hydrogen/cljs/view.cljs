@@ -4,14 +4,14 @@
 
 {{=<< >>=}}
 (ns <<namespace>>.client.view
-  (:require [re-frame.core :as re-frame]))
+  (:require [re-frame.core :as rf]))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::active-view
  (fn [db]
    (get db :active-view <<#hydrogen-cljs-session?>>:landing<</hydrogen-cljs-session?>><<^hydrogen-cljs-session?>>:home<</hydrogen-cljs-session?>>)))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::set-active-view
  (fn [db [_ active-view]]
    (assoc db :active-view active-view)))
@@ -19,7 +19,7 @@
 (defn redirect! [loc]
   (set! (.-location js/window) loc))
 
-(re-frame/reg-fx
+(rf/reg-fx
  :redirect
  (fn [loc]
    (redirect! loc)))

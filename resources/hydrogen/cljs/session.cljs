@@ -6,31 +6,31 @@
 (ns <<namespace>>.client.session
   (:require [ajax.core :as ajax]
             [clojure.string :as s]
-            [re-frame.core :as re-frame]
+            [re-frame.core :as rf]
             [reagent.core :as reagent]
             [<<namespace>>.client.view :as view]))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::token
  (fn [db]
    (:token db)))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::set-token
  (fn [db [_ id-token]]
    (assoc db :token id-token)))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::remove-token
  (fn [db [_]]
    (dissoc db :token)))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::set-auth-error
  (fn [db [_ error]]
    (assoc db :auth-error error)))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::auth-error
  (fn [db]
    (:auth-error db)))
@@ -50,7 +50,7 @@
         (assoc-in [:db :token] jwt-token)
         (assoc :jwt-token jwt-token))))
 
-(re-frame/reg-cofx
+(rf/reg-cofx
  ::jwt-token
  (fn [{:keys [db] :as cofx} _]
    (let [current-user (-> (get-user-pool db)
@@ -58,7 +58,7 @@
      (cond-> cofx
        current-user (assoc-jwt-token-to-cofx current-user)))))
 
-(re-frame/reg-event-fx
+(rf/reg-event-fx
  ::user-login
  (fn [{:keys [db]} [_ {:keys [username password]}]]
    (let [user-pool (get-user-pool db)
@@ -73,13 +73,13 @@
       auth-details
       #js {:onSuccess (fn [cognitoAuthResult]
                         (let [id-token (-> cognitoAuthResult .-idToken .-jwtToken)]
-                          (re-frame/dispatch [::set-auth-error nil])
-                          (re-frame/dispatch [::set-token id-token])
+                          (rf/dispatch [::set-auth-error nil])
+                          (rf/dispatch [::set-token id-token])
                           (view/redirect! "/#/home")))
            :onFailure (fn [err]
-                        (re-frame/dispatch [::set-auth-error "Incorrect username or password"]))}))))
+                        (rf/dispatch [::set-auth-error "Incorrect username or password"]))}))))
 
-(re-frame/reg-event-fx
+(rf/reg-event-fx
  ::user-logout
  (fn [{:keys [db]} [_]]
    (let [user-pool (get-user-pool db)

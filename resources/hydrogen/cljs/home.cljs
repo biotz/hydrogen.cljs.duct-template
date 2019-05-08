@@ -4,11 +4,11 @@
 
 {{=<< >>=}}
 (ns <<namespace>>.client.home
-  (:require [re-frame.core :as re-frame]<<#hydrogen-cljs-session?>>
+  (:require [re-frame.core :as rf]<<#hydrogen-cljs-session?>>
             [<<namespace>>.client.session :as session]<</hydrogen-cljs-session?>>
             [<<namespace>>.client.view :as view]))
 
-(re-frame/reg-event-fx
+(rf/reg-event-fx
  ::go-to-home
  (fn [_ _]
    {:dispatch [::view/set-active-view :home]
@@ -16,7 +16,7 @@
 
 (defn logout []
   [:div.logout
-   {:on-click #(do (re-frame/dispatch [::session/user-logout])
+   {:on-click #(do (rf/dispatch [::session/user-logout])
                    (view/redirect! "/#/landing"))}
    "Logout"])<</hydrogen-cljs-session?>>
 

@@ -5,30 +5,30 @@
 {{=<< >>=}}
 (ns <<namespace>>.client.todo
   (:require [reagent.core :as reagent]
-            [re-frame.core :as re-frame]
+            [re-frame.core :as rf]
             [clojure.string :refer [lower-case]]
             [<<namespace>>.client.view :as view]))
 
-(re-frame/reg-event-fx
+(rf/reg-event-fx
  ::go-to-todo
  (fn [_ _]
    {:dispatch [::view/set-active-view :todo-list]}))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::visibility-mode
  (fn [db _]
    (get db :visibility-mode :all)))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::all-todos
  (fn [db _]
    (:todos db)))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::visible-todos
  (fn [_ _]
-   [(re-frame/subscribe [::all-todos])
-    (re-frame/subscribe [::visibility-mode])])
+   [(rf/subscribe [::all-todos])
+    (rf/subscribe [::visibility-mode])])
  (fn [[all-todos visibility-mode]]
    (let [all-todos (vals all-todos)]
      (case visibility-mode
@@ -36,22 +36,22 @@
        :completed (filter :checked? all-todos)
        :pending (remove :checked? all-todos)))))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::add-todo
  (fn [db [_ {:keys [id] :as todo-data}]]
    (assoc-in db [:todos id] todo-data)))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::delete-todo
  (fn [db [_ id]]
    (update db :todos dissoc id)))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::toggle-todo
  (fn [db [_ id]]
    (update-in db [:todos id :checked?] not)))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::select-visibility-mode
  (fn [db [_ mode]]
    (assoc db :visibility-mode mode)))
@@ -59,14 +59,14 @@
 (defn options []
   [:div {:style {:padding "10px" :background "green"}}
    [:select {:on-change (fn [%]
-                          (re-frame/dispatch
+                          (rf/dispatch
                            [::select-visibility-mode (keyword (lower-case (.. % -target -value)))]))}
     [:option "All"]
     [:option "Completed"]
     [:option "Pending"]]])
 
 (defn add-new-todo [todo-content]
-  (re-frame/dispatch [::add-todo {:content @todo-content
+  (rf/dispatch [::add-todo {:content @todo-content
                                   :id (random-uuid)}])
   (reset! todo-content nil)
   (.focus (.getElementById js/document "todo-content-input")))
@@ -89,9 +89,9 @@
   [:li {:style {:display :flex}}
    [:div {:style {:flex 2}} content]
    [:div {:style {:flex 1}
-          :on-click #(re-frame/dispatch [::toggle-todo id])}
+          :on-click #(rf/dispatch [::toggle-todo id])}
     (str (boolean checked?))]
-   [:div {:on-click #(re-frame/dispatch [::delete-todo id])
+   [:div {:on-click #(rf/dispatch [::delete-todo id])
           :style {:flex 1
                   :cursor :pointer}}
     "delete"]])
@@ -103,7 +103,7 @@
    [:div {:style {:flex 1}} ""]])
 
 (defn todo-list []
-  (let [todos-sub (re-frame/subscribe [::visible-todos])]
+  (let [todos-sub (rf/subscribe [::visible-todos])]
     (fn []
       [:div {:style {:padding "10px" :background "cyan"}}
        [legend]

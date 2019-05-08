@@ -5,12 +5,12 @@
 {{=<< >>=}}
 (ns <<namespace>>.client.landing
   (:require [ajax.core :as ajax]
-            [re-frame.core :as re-frame]
+            [re-frame.core :as rf]
             [reagent.core :as reagent]
             [<<namespace>>.client.session :as session]
             [<<namespace>>.client.view :as view]))
 
-(re-frame/reg-event-fx
+(rf/reg-event-fx
  ::go-to-landing
  (fn [_ _]
    {:dispatch [::view/set-active-view :landing]}))
@@ -22,11 +22,11 @@
 
 (defn- do-login-if-enter-pressed [event credentials]
   (when (= (.-key event) "Enter")
-    (re-frame/dispatch [::session/user-login credentials])
+    (rf/dispatch [::session/user-login credentials])
     (.preventDefault event)))
 
 (defn login-form []
-  (let [auth-error (re-frame/subscribe [::session/auth-error])]
+  (let [auth-error (rf/subscribe [::session/auth-error])]
     (fn []
       [:div.login-form
        [:form
@@ -44,7 +44,7 @@
                  :on-key-press #(do-login-if-enter-pressed % @credentials)
                  :on-change #(swap-input! % credentials :password)}]]
        [:div.btn
-        {:on-click #(re-frame/dispatch [::session/user-login @credentials])}
+        {:on-click #(rf/dispatch [::session/user-login @credentials])}
         "Login"]
        (when @auth-error
          [:p {:style {:color :red}} (name @auth-error)])])))

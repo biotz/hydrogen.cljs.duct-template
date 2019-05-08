@@ -5,7 +5,7 @@
 {{=<< >>=}}
 (ns <<namespace>>.client
   (:require [ajax.core :as ajax]
-            [re-frame.core :as re-frame]
+            [re-frame.core :as rf]
             [day8.re-frame.http-fx]
             [reagent.core :as reagent]
             [<<namespace>>.client.home :as home]<<#hydrogen-cljs-session?>>
@@ -17,17 +17,17 @@
 (def default-db
   {})<<#hydrogen-cljs-session?>>
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::set-config
  (fn [db [_ config]]
    (assoc db :config config)))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::error
  (fn [db [_ _]]
    (assoc db :error :unable-to-load-config)))<</hydrogen-cljs-session?>>
 
-(re-frame/reg-event-fx
+(rf/reg-event-fx
  ::load-app
  (fn [{:keys [db]} [_]]
    {:db default-db<<#hydrogen-cljs-session?>>
@@ -39,7 +39,7 @@
                  :on-failure [::error]}<</hydrogen-cljs-session?>>}))
 
 (defn main []
-  (let [active-view (re-frame/subscribe [::view/active-view])]
+  (let [active-view (rf/subscribe [::view/active-view])]
     (fn []
       (case @active-view<<#hydrogen-cljs-session?>>
         :landing [landing/main]<</hydrogen-cljs-session?>>
@@ -52,12 +52,12 @@
     (println "Dev mode")))
 
 (defn mount-root []
-  (re-frame/clear-subscription-cache!)
+  (rf/clear-subscription-cache!)
   (reagent/render [:div.app-container [main]]
                   (.getElementById js/document "app")))
 
 (defn ^:export init []
   (dev-setup)
-  (re-frame/dispatch-sync [::load-app])
+  (rf/dispatch-sync [::load-app])
   (routes/app-routes)
   (mount-root))
