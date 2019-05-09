@@ -47,10 +47,12 @@
                  ;; Resources
                  "resources/{{dirs}}/index.html" (resource "resources/index.html")
                  "resources/{{dirs}}/public/images/hydrogen-logo-white.svg" (resource "resources/images/hydrogen-logo-white.svg")
+                 "resources/{{dirs}}/public/css/button.scss" (resource "resources/css/button.scss")
+                 "resources/{{dirs}}/public/css/landing.scss" (resource "resources/css/landing.scss")
                  "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")
+                 "resources/{{dirs}}/public/css/theming.scss" (resource "resources/css/theming.scss")
                  "resources/{{dirs}}/public/css/tooltip.scss" (resource "resources/css/tooltip.scss")
                  "resources/{{dirs}}/public/css/utils.scss" (resource "resources/css/utils.scss")
-                 "resources/{{dirs}}/public/css/theming.scss" (resource "resources/css/theming.scss")
                  }
      :modules {:hydrogen.module.cljs/core {}}
      :dirs ["src/{{dirs}}/boundary/adapter"
