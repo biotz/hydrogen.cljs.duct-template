@@ -11,12 +11,13 @@
             [<<namespace>>.client.home :as home]<<#hydrogen-cljs-session?>>
             [<<namespace>>.client.landing :as landing]<</hydrogen-cljs-session?>>
             [<<namespace>>.client.routes :as routes]
+            [<<namespace>>.client.theme :as theme]
             [<<namespace>>.client.todo :as todo]
             [<<namespace>>.client.tooltip :as tooltip]
             [<<namespace>>.client.view :as view]))
 
 (def default-db
-  {})<<#hydrogen-cljs-session?>>
+  {:theme :light})<<#hydrogen-cljs-session?>>
 
 (rf/reg-event-db
  ::set-config
@@ -52,12 +53,17 @@
     (enable-console-print!)
     (println "Dev mode")))
 
+(defn app []
+  (let [theme (rf/subscribe [::theme/get-theme])]
+       (fn []
+           [:div.app-container
+            {:on-click #(tooltip/destroy-on-click-out (.. % -target))
+             :class (str "theme-" (name @theme))}
+            [main]])))
+
 (defn mount-root []
   (rf/clear-subscription-cache!)
-  (reagent/render [:div.app-container
-                   {:on-click #(tooltip/destroy-on-click-out (.. % -target))}
-                   [main]]
-                  (.getElementById js/document "app")))
+  (reagent/render [app] (.getElementById js/document "app")))
 
 (defn ^:export init []
   (dev-setup)

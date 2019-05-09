@@ -35,6 +35,7 @@
                  "src/{{dirs}}/client.cljs" (resource "cljs/client.cljs")
                  "src/{{dirs}}/client/home.cljs" (resource "cljs/home.cljs")
                  "src/{{dirs}}/client/routes.cljs" (resource "cljs/routes.cljs")
+                 "src/{{dirs}}/client/theme.cljs" (resource "cljs/theme.cljs")
                  "src/{{dirs}}/client/todo.cljs" (resource "cljs/todo.cljs")
                  "src/{{dirs}}/client/tooltip.cljs" (resource "cljs/tooltip.cljs")
                  "src/{{dirs}}/client/view.cljs" (resource "cljs/view.cljs")
@@ -47,6 +48,9 @@
                  "resources/{{dirs}}/index.html" (resource "resources/index.html")
                  "resources/{{dirs}}/public/images/hydrogen-logo-white.svg" (resource "resources/images/hydrogen-logo-white.svg")
                  "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")
+                 "resources/{{dirs}}/public/css/tooltip.scss" (resource "resources/css/tooltip.scss")
+                 "resources/{{dirs}}/public/css/utils.scss" (resource "resources/css/utils.scss")
+                 "resources/{{dirs}}/public/css/theming.scss" (resource "resources/css/theming.scss")
                  }
      :modules {:hydrogen.module.cljs/core {}}
      :dirs ["src/{{dirs}}/boundary/adapter"

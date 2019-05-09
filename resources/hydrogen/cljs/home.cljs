@@ -32,7 +32,7 @@
       (let [tooltip-id (str (random-uuid))
             tooltip-data (rf/subscribe [::tooltip/by-id tooltip-id])]
            (fn []
-               [:div
+               [:div.u-position-relative.u-display-inline-block
                 {:class (tooltip/gen-controller-class tooltip-id)}
                 [:button.flat-btn {:on-click #(if @tooltip-data
                                                (rf/dispatch [::tooltip/destroy-by-id tooltip-id])
@@ -46,7 +46,7 @@
       (let [tooltip-id (str (random-uuid))
             tooltip-data (rf/subscribe [::tooltip/by-id tooltip-id])]
            (fn []
-               [:div
+               [:div.u-position-relative.u-display-inline-block
                 {:class (tooltip/gen-controller-class tooltip-id)}
                 [:button.flat-btn {:on-click #(rf/dispatch [::tooltip/register {:id tooltip-id}])}
                  "Spawn regular tooltip"]
