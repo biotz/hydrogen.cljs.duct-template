@@ -1,4 +1,4 @@
-(defproject hydrogen.cljs/duct-template "0.1.2"
+(defproject hydrogen.cljs/duct-template "0.1.3-SNAPSHOT"
   :description "hydrogen.cljs"
   :url "https://github.com/magnetcoop/hydogen.cljs.duct-template"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
