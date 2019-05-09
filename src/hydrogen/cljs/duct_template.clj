@@ -45,7 +45,7 @@
                  "src/{{dirs}}/static/root.clj" (resource "static/root.clj")
                  ;; Resources
                  "resources/{{dirs}}/index.html" (resource "resources/index.html")
-                 "resources/{{dirs}}/public/assets/hydrogen-logo-white.svg" (resource "resources/assets/hydrogen-logo-white.svg")
+                 "resources/{{dirs}}/public/images/hydrogen-logo-white.svg" (resource "resources/images/hydrogen-logo-white.svg")
                  "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")
                  }
      :modules {:hydrogen.module.cljs/core {}}

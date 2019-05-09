@@ -60,7 +60,7 @@
 
 (defn main []
   [:div {:id "home"}
-   [:img {:src "assets/hydrogen-logo-white.svg" :alt "Hydrogen logo"}]
+   [:img {:src "images/hydrogen-logo-white.svg" :alt "Hydrogen logo"}]
    [:h1 "Welcome to Hydrogen!"]
    [tooltip-sandbox]
    [:p "What do you want to play with?"]
