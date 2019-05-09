@@ -24,8 +24,8 @@
       (get tooltips-controls id)))
 
 (defn default-tooltip-data []
-      {:id (str (random-uuid))
-       :destroy-on-click-out? true})
+  {:id (str (random-uuid))
+   :destroy-on-click-out? true})
 
 (rf/reg-event-db
   ::register
@@ -45,26 +45,26 @@
               #(apply dissoc % ids))))
 
 (defn find-tooltip-controller-class-in-node [node]
-      (some->> (.-className node)
-               (re-find controller-class-pattern)
-               (first)))
+  (some->> (.-className node)
+           (re-find controller-class-pattern)
+           (first)))
 
 (defn find-tooltip-controller-class [node]
-      (or (find-tooltip-controller-class-in-node node)
-          (some-> (.-parentNode node) (find-tooltip-controller-class))))
+  (or (find-tooltip-controller-class-in-node node)
+      (some-> (.-parentNode node) (find-tooltip-controller-class))))
 
 (defn destroy-on-click-out [clicked-node]
-      (let [clicked-controller (some->
-                                 (find-tooltip-controller-class clicked-node)
-                                 (str/split controller-class-prefix)
-                                 (second))
-            controls-ids (->> @(rf/subscribe [::controls])
-                              (vals)
-                              (filter :destroy-on-click-out?)
-                              (map :id)
-                              (set))]
-           (rf/dispatch [::destroy-by-ids (disj controls-ids clicked-controller)])))
+  (let [clicked-controller (some->
+                             (find-tooltip-controller-class clicked-node)
+                             (str/split controller-class-prefix)
+                             (second))
+        controls-ids (->> @(rf/subscribe [::controls])
+                          (vals)
+                          (filter :destroy-on-click-out?)
+                          (map :id)
+                          (set))]
+       (rf/dispatch [::destroy-by-ids (disj controls-ids clicked-controller)])))
 
 (defn gen-controller-class [tooltip-id]
-      {:pre (string? tooltip-id)}
-      (str controller-class-prefix tooltip-id))
+  {:pre (string? tooltip-id)}
+  (str controller-class-prefix tooltip-id))
