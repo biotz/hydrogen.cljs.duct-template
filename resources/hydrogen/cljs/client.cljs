@@ -55,11 +55,11 @@
 
 (defn app []
   (let [theme (rf/subscribe [::theme/get-theme])]
-       (fn []
-           [:div.app-container
-            {:on-click #(tooltip/destroy-on-click-out (.. % -target))
-             :class (str "theme-" (name @theme))}
-            [main]])))
+    (fn []
+      [:div.app-container
+       {:on-click #(tooltip/destroy-on-click-out (.. % -target))
+        :class (str "theme-" (name @theme))}
+       [main]])))
 
 (defn mount-root []
   (rf/clear-subscription-cache!)

@@ -67,7 +67,7 @@
 
 (defn add-new-todo [todo-content]
   (rf/dispatch [::add-todo {:content @todo-content
-                                  :id (random-uuid)}])
+                            :id (random-uuid)}])
   (reset! todo-content nil)
   (.focus (.getElementById js/document "todo-content-input")))
 

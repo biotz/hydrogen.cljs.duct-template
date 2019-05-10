@@ -26,37 +26,37 @@
    [:a {:href "/#/todo-list"} "TODO LIST"]])
 
 (defn example-tooltip [content]
-      [:div.tooltip.tooltip--left content])
+  [:div.tooltip.tooltip--left content])
 
 (defn persistent-tooltip-controller []
-      (let [tooltip-id (str (random-uuid))
-            tooltip-data (rf/subscribe [::tooltip/by-id tooltip-id])]
-           (fn []
-               [:div.u-position-relative.u-display-inline-block
-                {:class (tooltip/gen-controller-class tooltip-id)}
-                [:button.btn {:on-click #(if @tooltip-data
-                                           (rf/dispatch [::tooltip/destroy-by-id tooltip-id])
-                                           (rf/dispatch [::tooltip/register {:id tooltip-id
-                                                                             :destroy-on-click-out? false}]))}
-                 (if @tooltip-data "Destroy tooltip" "Spawn persistent tooltip")]
-                (when @tooltip-data
-                      [example-tooltip "You can destroy me only by clicking the button that created me."])])))
+  (let [tooltip-id (str (random-uuid))
+        tooltip-data (rf/subscribe [::tooltip/by-id tooltip-id])]
+    (fn []
+      [:div.u-position-relative.u-display-inline-block
+       {:class (tooltip/gen-controller-class tooltip-id)}
+       [:button.btn {:on-click #(if @tooltip-data
+                                  (rf/dispatch [::tooltip/destroy-by-id tooltip-id])
+                                  (rf/dispatch [::tooltip/register {:id tooltip-id
+                                                                    :destroy-on-click-out? false}]))}
+        (if @tooltip-data "Destroy tooltip" "Spawn persistent tooltip")]
+       (when @tooltip-data
+         [example-tooltip "You can destroy me only by clicking the button that created me."])])))
 
 (defn regular-tooltip-controller []
-      (let [tooltip-id (str (random-uuid))
-            tooltip-data (rf/subscribe [::tooltip/by-id tooltip-id])]
-           (fn []
-               [:div.u-position-relative.u-display-inline-block
-                {:class (tooltip/gen-controller-class tooltip-id)}
-                [:button.btn {:on-click #(rf/dispatch [::tooltip/register {:id tooltip-id}])}
-                 "Spawn regular tooltip"]
-                (when @tooltip-data
-                      [example-tooltip "Hello! What a wonderful day!"])])))
+  (let [tooltip-id (str (random-uuid))
+        tooltip-data (rf/subscribe [::tooltip/by-id tooltip-id])]
+    (fn []
+      [:div.u-position-relative.u-display-inline-block
+       {:class (tooltip/gen-controller-class tooltip-id)}
+       [:button.btn {:on-click #(rf/dispatch [::tooltip/register {:id tooltip-id}])}
+        "Spawn regular tooltip"]
+       (when @tooltip-data
+         [example-tooltip "Hello! What a wonderful day!"])])))
 
 (defn tooltip-sandbox []
-      [:div
-       [regular-tooltip-controller]
-       [persistent-tooltip-controller]])
+  [:div
+   [regular-tooltip-controller]
+   [persistent-tooltip-controller]])
 
 (defn main []
   [:div {:id "home"}

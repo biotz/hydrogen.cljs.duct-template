@@ -12,37 +12,37 @@
   (re-pattern (str controller-class-prefix "([\\w\\-]+)")))
 
 (rf/reg-sub
-  ::controls
-  (fn [db _]
-      (:tooltip-controls db)))
+ ::controls
+ (fn [db _]
+   (:tooltip-controls db)))
 
 (rf/reg-sub
-  ::by-id
-  (fn [db _]
-      (rf/subscribe [::controls]))
-  (fn [tooltips-controls [_ id]]
-      (get tooltips-controls id)))
+ ::by-id
+ (fn [db _]
+   (rf/subscribe [::controls]))
+ (fn [tooltips-controls [_ id]]
+   (get tooltips-controls id)))
 
 (defn default-tooltip-data []
   {:id (str (random-uuid))
    :destroy-on-click-out? true})
 
 (rf/reg-event-db
-  ::register
-  (fn [db [_ data]]
-      (let [data (merge (default-tooltip-data) data)]
-           (assoc-in db [:tooltip-controls (:id data)] data))))
+ ::register
+ (fn [db [_ data]]
+   (let [data (merge (default-tooltip-data) data)]
+     (assoc-in db [:tooltip-controls (:id data)] data))))
 
 (rf/reg-event-db
-  ::destroy-by-id
-  (fn [db [_ id]]
-      (update db :tooltip-controls dissoc id)))
+ ::destroy-by-id
+ (fn [db [_ id]]
+   (update db :tooltip-controls dissoc id)))
 
 (rf/reg-event-db
-  ::destroy-by-ids
-  (fn [db [_ ids]]
-      (update db :tooltip-controls
-              #(apply dissoc % ids))))
+ ::destroy-by-ids
+ (fn [db [_ ids]]
+   (update db :tooltip-controls
+           #(apply dissoc % ids))))
 
 (defn find-tooltip-controller-class-in-node [node]
   (some->> (.-className node)
@@ -55,15 +55,15 @@
 
 (defn destroy-on-click-out [clicked-node]
   (let [clicked-controller (some->
-                             (find-tooltip-controller-class clicked-node)
-                             (str/split controller-class-prefix)
-                             (second))
+                            (find-tooltip-controller-class clicked-node)
+                            (str/split controller-class-prefix)
+                            (second))
         controls-ids (->> @(rf/subscribe [::controls])
                           (vals)
                           (filter :destroy-on-click-out?)
                           (map :id)
                           (set))]
-       (rf/dispatch [::destroy-by-ids (disj controls-ids clicked-controller)])))
+    (rf/dispatch [::destroy-by-ids (disj controls-ids clicked-controller)])))
 
 (defn gen-controller-class [tooltip-id]
   {:pre (string? tooltip-id)}

@@ -82,7 +82,7 @@
 
   (defroute "/landing" []
     (rf/dispatch [:go-to [::landing/go-to-landing]
-                        {:allow-authenticated? false :allow-unauthenticated? true}]))
+                  {:allow-authenticated? false :allow-unauthenticated? true}]))
 
   (defroute "/home" []
     (rf/dispatch [:go-to [::home/go-to-home]]))

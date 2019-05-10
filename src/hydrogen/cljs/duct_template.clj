@@ -3,23 +3,23 @@
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 (ns hydrogen.cljs.duct-template
-    (:require [clojure.java.io :as io]
-              [clojure.string]))
+  (:require [clojure.java.io :as io]
+            [clojure.string]))
 
 (defn- resource [path]
   (io/resource (str "hydrogen/" path)))
 
 (defn- gen-cascading-routes [project-ns routes-refs]
   (as-> routes-refs $
-        (map #(format "#ig/ref :%s.%s" project-ns %) $)
-        (clojure.string/join "\n   " $)
-        (str "\n  [" $ "]")))
+    (map #(format "#ig/ref :%s.%s" project-ns %) $)
+    (clojure.string/join "\n   " $)
+    (str "\n  [" $ "]")))
 
 (defn core-profile [{:keys [project-ns profiles]}]
   (let [vars (cond-> {:hydrogen-cljs-core? true}
-                     (not (get profiles :hydrogen.cljs/session))
-                     (assoc :cascading-routes (gen-cascading-routes project-ns ["static/root"
-                                                                                "api/example"])))]
+               (not (get profiles :hydrogen.cljs/session))
+               (assoc :cascading-routes (gen-cascading-routes project-ns ["static/root"
+                                                                          "api/example"])))]
     {:vars vars
      :deps '[[cljs-ajax "0.7.5"]
              [day8.re-frame/http-fx "0.1.6"]
