@@ -52,12 +52,14 @@
 (rf/reg-event-fx
  :go-to*
  [(rf/inject-cofx ::session/jwt-token)]
- (fn [{:keys [jwt-token]} [_ evt access-config]]
-   (let [access-config (merge access-config-defaults access-config)]
-     (cond
-       (anyone? access-config) {:dispatch evt}
-       (only-unauthenticated? access-config) (if jwt-token {:redirect "/#/home"} {:dispatch evt})
-       (only-authenticated? access-config) (if jwt-token {:dispatch evt} {:redirect "/#/landing"})))))
+ (fn [{:keys [db jwt-token]} [_ evt access-config]]
+     (let [access-config (merge access-config-defaults access-config)]
+          (merge
+            {:db db}
+            (cond
+              (anyone? access-config) {:dispatch evt}
+              (only-unauthenticated? access-config) (if jwt-token {:redirect "/#/home"} {:dispatch evt})
+              (only-authenticated? access-config) (if jwt-token {:dispatch evt} {:redirect "/#/landing"}))))))
 
 (rf/reg-event-fx
  :go-to
