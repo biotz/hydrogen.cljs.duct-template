@@ -19,7 +19,8 @@
   (let [vars (cond-> {:hydrogen-cljs-core? true}
                (not (get profiles :hydrogen.cljs/session))
                (assoc :cascading-routes (gen-cascading-routes project-ns ["static/root"
-                                                                          "api/example"])))]
+                                                                          "api/example"])))
+        externs-paths (when-not (get profiles :hydrogen.cljs/session) [])]
     {:vars vars
      :deps '[[cljs-ajax "0.7.5"]
              [day8.re-frame/http-fx "0.1.6"]
@@ -28,10 +29,9 @@
              [re-frame "0.10.6"]
              [reagent "0.8.1"]
              [secretary "1.2.3"]
-             [hydrogen/module.cljs "0.1.2"]]
+             [hydrogen/module.cljs "0.1.3"]]
      :dev-deps '[[day8.re-frame/re-frame-10x "0.3.7"]]
-     :templates {
-                 ;; Client
+     :templates {;; Client
                  "src/{{dirs}}/client.cljs" (resource "cljs/client.cljs")
                  "src/{{dirs}}/client/home.cljs" (resource "cljs/home.cljs")
                  "src/{{dirs}}/client/routes.cljs" (resource "cljs/routes.cljs")
@@ -52,9 +52,11 @@
                  "resources/{{dirs}}/public/css/main.scss" (resource "resources/css/main.scss")
                  "resources/{{dirs}}/public/css/theming.scss" (resource "resources/css/theming.scss")
                  "resources/{{dirs}}/public/css/tooltip.scss" (resource "resources/css/tooltip.scss")
-                 "resources/{{dirs}}/public/css/utils.scss" (resource "resources/css/utils.scss")
-                 }
-     :modules {:hydrogen.module.cljs/core {}}
+                 "resources/{{dirs}}/public/css/utils.scss" (resource "resources/css/utils.scss")}
+     :modules {:hydrogen.module.cljs/core (cond-> {:add-example-api? true}
+
+                                            (not (get profiles :hydrogen.cljs/session))
+                                            (assoc :externs-paths externs-paths))}
      :dirs ["src/{{dirs}}/boundary/adapter"
             "src/{{dirs}}/boundary/port"]
      :repl-options {:host "0.0.0.0"
@@ -67,8 +69,7 @@
                                                               "api/example"])}
    :deps '[[duct/middleware.buddy "0.1.0"]
            [magnet/buddy-auth.jwt-oidc "0.5.0"]]
-   :templates {
-               ;; Client
+   :templates {;; Client
                "src/{{dirs}}/client/landing.cljs" (resource "cljs/landing.cljs")
                "src/{{dirs}}/client/session.cljs" (resource "cljs/session.cljs")
                "src/{{dirs}}/client/externs.js" (resource "cljs/externs.js")
@@ -76,4 +77,4 @@
                "src/{{dirs}}/api/config.clj" (resource "api/config.clj")
                ;; Resources
                "resources/{{dirs}}/public/css/landing.scss" (resource "resources/css/landing.scss")}
-   :modules {:hydrogen.module.cljs/session {}}})
+   :modules {:hydrogen.module.cljs/session {:add-example-api? true}}})
