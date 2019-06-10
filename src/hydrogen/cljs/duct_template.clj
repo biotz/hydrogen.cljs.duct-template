@@ -29,6 +29,7 @@
              [re-frame "0.10.6"]
              [reagent "0.8.1"]
              [secretary "1.2.3"]
+             [org.clojure/java.jdbc "0.7.9"]
              [hydrogen/module.cljs "0.1.3"]]
      :dev-deps '[[day8.re-frame/re-frame-10x "0.3.7"]]
      :templates {;; Client
@@ -42,8 +43,16 @@
                  ;; API
                  "src/{{dirs}}/api/example.clj" (resource "api/example.clj")
                  "src/{{dirs}}/api/util.clj" (resource "api/util.clj")
+                 "src/{{dirs}}/api/responses.clj" (resource "api/responses.clj")
                  ;; Static
                  "src/{{dirs}}/static/root.clj" (resource "static/root.clj")
+                 ;; Persistence boundaries
+                 "src/{{dirs}}/boundary/port/persistence.clj" (resource "boundary/port/persistence.clj")
+                 "src/{{dirs}}/boundary/adapter/persistence/connector.clj" (resource "boundary/adapter/persistence/connector.clj")
+                 "src/{{dirs}}/boundary/adapter/persistence/sql.clj" (resource "boundary/adapter/persistence/sql.clj")
+                 "src/{{dirs}}/boundary/adapter/persistence/sql/util.clj" (resource "boundary/adapter/persistence/sql/util.clj")
+                 ;; Utils
+                 "src/{{dirs}}/util.clj" (resource "util.clj")
                  ;; Resources
                  "resources/{{dirs}}/index.html" (resource "resources/index.html")
                  "resources/{{dirs}}/public/images/hydrogen-logo-white.svg" (resource "resources/images/hydrogen-logo-white.svg")
