@@ -1,3 +1,5 @@
+### NOTE: This repo got deprecated. We migrated to [hydrogen.duct-template](https://github.com/magnetcoop/hydrogen.duct-template)
+
 # hydrogen.cljs.duct-profile
 
 An external profile for [Duct template](https://github.com/duct-framework/duct) that introduces Hydrogen boilerplate for cljs code.
